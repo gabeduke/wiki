@@ -1,17 +1,21 @@
 
-preflight:
-	mkdir -p $(CURDIR)/.data
+EXECUTABLES = buffalo docker docker-compose go
+K := $(foreach exec,$(EXECUTABLES),\
+        $(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH")))
 
-dev:
+migrate: db
+	$(info performing migrations)
+	buffalo pop migrate up
+
+dev: migrate
 	buffalo dev
 
-db: preflight
-	docker run -d --name postgres \
-	-e POSTGRES_PASSWORD=postgres \
-	-e PGDATA=/var/lib/postgresql/data/pgdata \
-    -v $(CURDIR)/.data:/var/lib/postgresql/data \
-	-p 5432:5432 \
-	postgres
+db:
+	docker-compose up -d
+
+db-seed: db
+	$(info creating db tables)
+	buffalo pop create -a
 
 clean:
-	docker stop postgres && docker rm postgres
+	docker-compose down

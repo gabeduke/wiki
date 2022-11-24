@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+#  postgres-init:
+#    image: postgres
+#    volumes:
+#      - "postgres_data:/data"
+#    entrypoint:
+#      - sh
+#      - -c
+#      - |
+#        chown -R 2000:2000 /data
+
+  postgres:
+#    depends_on:
+#      postgres-init:
+#        condition: service_completed_successfully
+
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
+      PGDATA: /pgdata
+    volumes:
+      - "postgres_data:/pgdata"
+    user: "2000"
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

@@ -7,12 +7,6 @@ ENV GOPROXY http://proxy.golang.org
 RUN mkdir -p /src/wiki
 WORKDIR /src/wiki
 
-# this will cache the npm install step, unless package.json changes
-ADD package.json .
-ADD yarn.lock .yarnrc.yml ./
-RUN mkdir .yarn
-COPY .yarn .yarn
-RUN yarn install
 # Copy the Go Modules manifests
 COPY go.mod go.mod
 COPY go.sum go.sum

@@ -16,6 +16,8 @@ import (
 	i18n "github.com/gobuffalo/mw-i18n/v2"
 	paramlogger "github.com/gobuffalo/mw-paramlogger"
 	"github.com/unrolled/secure"
+
+	"github.com/markbates/goth/gothic"
 )
 
 // ENV is used to help switch settings based on where the
@@ -43,29 +45,44 @@ var (
 // declared after it to never be called.
 func App() *buffalo.App {
 	appOnce.Do(func() {
-		app = buffalo.New(buffalo.Options{
-			Env:         ENV,
-			SessionName: "_wiki_session",
-		})
+		if app == nil {
+			app = buffalo.New(buffalo.Options{
+				Env:         ENV,
+				SessionName: "_wiki_session",
+			})
 
-		// Automatically redirect to SSL
-		app.Use(forceSSL())
+			// Automatically redirect to SSL
+			app.Use(forceSSL())
 
-		// Log request parameters (filters apply).
-		app.Use(paramlogger.ParameterLogger)
+			// Log request parameters (filters apply).
+			app.Use(paramlogger.ParameterLogger)
 
-		// Protect against CSRF attacks. https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
-		// Remove to disable this.
-		app.Use(csrf.New)
+			// Protect against CSRF attacks. https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
+			// Remove to disable this.
+			app.Use(csrf.New)
 
-		// Wraps each request in a transaction.
-		//   c.Value("tx").(*pop.Connection)
-		// Remove to disable this.
-		app.Use(popmw.Transaction(models.DB))
-		// Setup and use translations:
-		app.Use(translations())
+			// Wraps each request in a transaction.
+			//   c.Value("tx").(*pop.Connection)
+			// Remove to disable this.
+			app.Use(popmw.Transaction(models.DB))
+			// Setup and use translations:
+			app.Use(translations())
 
-		app.GET("/", HomeHandler)
+			app.GET("/", HomeHandler)
+
+			auth := app.Group("/auth")
+			app.Use(SetCurrentUser)
+			app.Use(Authorize)
+
+			app.Resource("/items", ItemsResource{})
+
+			app.Middleware.Skip(Authorize, HomeHandler)
+			bah := buffalo.WrapHandlerFunc(gothic.BeginAuthHandler)
+			auth.GET("/{provider}", bah)
+			auth.DELETE("/", AuthDestroy)
+			auth.Middleware.Skip(Authorize, bah, AuthCallback)
+			auth.GET("/{provider}/callback", AuthCallback)
+		}
 
 		app.ServeFiles("/", http.FS(public.FS())) // serve files from the public directory
 	})

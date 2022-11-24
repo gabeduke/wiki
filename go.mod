@@ -1,4 +1,4 @@
-module wiki
+module github.com/gabeduke/wiki
 
 go 1.18
 

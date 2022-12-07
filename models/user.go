@@ -20,6 +20,8 @@ type User struct {
 	ProviderID string       `json:"provider_id" db:"provider_id"`
 	CreatedAt  time.Time    `json:"created_at" db:"created_at"`
 	UpdatedAt  time.Time    `json:"updated_at" db:"updated_at"`
+	Workspace  []Workspace  `json:"workspaces" has_many:"workspaces" order_by:"created_at desc"`
+	Items      []Item       `json:"items" has_many:"items" order_by:"created_at desc"`
 }
 
 // String is not required by pop and may be deleted

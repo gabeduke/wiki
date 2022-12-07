@@ -1,0 +1,45 @@
+create_table("users") {
+	t.Column("id", "uuid", {primary: true, unique: true, not_null: true})
+	t.Column("name", "string", {})
+	t.Column("email", "string", {null: true})
+	t.Column("provider", "string", {})
+	t.Column("provider_id", "string", {})
+	t.Timestamps()
+}
+
+create_table("workspaces") {
+	t.Column("id", "uuid", {primary: true, unique: true})
+	t.Column("name", "string", {size: 255})
+	t.Column("description", "string", {size: 255})
+	t.Column("owner_id", "uuid", {nullable: true})
+	t.Timestamps()
+}
+
+create_table("user_workspaces") {
+    t.Column("id", "uuid", {unique: true})
+    t.Column("user_id", "uuid", {})
+    t.Column("workspace_id", "uuid", {})
+    t.Column("role_id", "uuid", {})
+    t.PrimaryKey("user_id", "workspace_id")
+    t.Timestamps()
+}
+
+create_table("role") {
+    t.Column("id", "uuid", {primary: true, unique: true})
+    t.Column("name", "string", {size: 255, unique: true})
+    t.Column("description", "string", {size: 255})
+}
+
+create_table("items") {
+	t.Column("id", "uuid", {primary: true, unique: true})
+	t.Column("name", "string", {size: 255})
+	t.Column("description", "string", {size: 255})
+	t.Column("user_workspace_id", "uuid", {})
+	t.Timestamps()
+}
+
+create_table("tags") {
+    t.Column("id", "uuid", {primary: true, unique: true})
+    t.Column("name", "string", {size: 255})
+    t.Column("description", "string", {size: 255})
+}

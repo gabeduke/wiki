@@ -1,0 +1,4 @@
+drop_table("users")
+drop_table("workspaces")
+drop_table("items")
+drop_table("tags")

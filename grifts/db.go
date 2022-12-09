@@ -1,10 +1,10 @@
 package grifts
 
 import (
+	"github.com/gabeduke/wiki/models"
+
 	"github.com/gobuffalo/grift/grift"
-	"github.com/gobuffalo/nulls"
 	"github.com/gobuffalo/pop/v6"
-	"wiki/models"
 )
 
 var _ = grift.Namespace("db", func() {
@@ -15,40 +15,15 @@ var _ = grift.Namespace("db", func() {
 			if err := tx.TruncateAll(); err != nil {
 				return err
 			}
-			u := &models.User{
-				//Email:                "mark@example.com",
-				//Password:             "password",
-				//PasswordConfirmation: "password",
+			w := &models.Workspace{
+				ID:   1,
+				Name: "default",
 			}
 
-			item := &models.Item{
-				Title:  "Buy Milk",
-				UserID: u.ID,
-			}
-
-			if err := tx.Create(item); err != nil {
+			if err := tx.Create(w); err != nil {
 				return err
 			}
 
-			item = &models.Item{
-				Title:  "Learn Go",
-				Body:   nulls.NewString("What a great language"),
-				UserID: u.ID,
-			}
-
-			if err := tx.Create(item); err != nil {
-				return err
-			}
-
-			item = &models.Item{
-				Title:     "Learn Buffalo",
-				UserID:    u.ID,
-				Completed: true,
-			}
-
-			if err := tx.Create(item); err != nil {
-				return err
-			}
 			return nil
 		})
 	})

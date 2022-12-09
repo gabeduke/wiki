@@ -1,7 +1,7 @@
-<li class="list-group-item <%= if (item.Completed) { return "completed" } %>" id="item-<%= item.ID %>">
+<li class="list-group-item <%= if (item.Claimed) { return "claimed" } %>" id="item-<%= item.ID %>">
 <%= form_for(item, {method: "PUT", action: itemPath({item_id: item.ID}), "data-remote": true, "data-type": "script", class: "item-form"}) { %>
-<%= f.CheckboxTag("Completed", {label: item.Title, unchecked: false}) %>
-<%= markdown(item.Body.String) %>
+<%= f.CheckboxTag("Claimed", {label: item.Name, unchecked: false}) %>
+<%= markdown(item.Description.String) %>
 <% } %>
 <a href="<%= itemPath({ item_id: item.ID }) %>" class="btn btn-info btn-xs">View</a>
 <a href="<%= editItemPath({ item_id: item.ID }) %>" class="btn btn-warning btn-xs">Edit</a>

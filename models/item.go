@@ -2,9 +2,8 @@ package models
 
 import (
 	"encoding/json"
-	"time"
-
 	"github.com/gobuffalo/nulls"
+	"time"
 
 	"github.com/gobuffalo/pop/v6"
 	"github.com/gobuffalo/validate/v3"
@@ -13,14 +12,13 @@ import (
 
 // Item is used by pop to map your items database table to your go code.
 type Item struct {
-	ID            uuid.UUID     `json:"id" db:"id"`
-	CreatedAt     time.Time     `json:"created_at" db:"created_at"`
-	UpdatedAt     time.Time     `json:"updated_at" db:"updated_at"`
-	Name          string        `json:"name" db:"name"`
-	Description   nulls.String  `json:"description" db:"description"`
-	Claimed       bool          `json:"claimed" db:"claimed"`
-	Tags          []Tag         `json:"tags" db:"tags" many_to_many:"items_tags"`
-	UserWorkspace UserWorkspace `json:"user_workspace" db:"user_workspace" belongs_to:"user_workspace"`
+	ID          uuid.UUID    `json:"id" db:"id"`
+	Name        string       `json:"name" db:"name"`
+	Description nulls.String `json:"description" db:"description"`
+	Claimed     bool         `json:"claimed" db:"claimed"`
+	UserId      uuid.UUID    `json:"user_id" db:"user_id"`
+	CreatedAt   time.Time    `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time    `json:"updated_at" db:"updated_at"`
 }
 
 // String is not required by pop and may be deleted

@@ -28,7 +28,8 @@ CREATE TABLE public.items (
     id uuid NOT NULL,
     name character varying(255) NOT NULL,
     description character varying(255) NOT NULL,
-    user_workspace_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    claimed boolean NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -115,16 +116,43 @@ ALTER TABLE public.users OWNER TO postgres;
 --
 
 CREATE TABLE public.workspaces (
-    id uuid NOT NULL,
+    id integer NOT NULL,
     name character varying(255) NOT NULL,
-    description character varying(255) NOT NULL,
-    owner_id uuid NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
 ALTER TABLE public.workspaces OWNER TO postgres;
+
+--
+-- Name: workspaces_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.workspaces_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.workspaces_id_seq OWNER TO postgres;
+
+--
+-- Name: workspaces_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.workspaces_id_seq OWNED BY public.workspaces.id;
+
+
+--
+-- Name: workspaces id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.workspaces ALTER COLUMN id SET DEFAULT nextval('public.workspaces_id_seq'::regclass);
+
 
 --
 -- Name: items items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres

@@ -1,0 +1,9 @@
+<%= if (name != "") { %>
+<div class="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    Welcome <strong><%= name %>!</strong>
+    <strong>Session Token:</strong><%= token %>
+</div>
+<% } else { %>
+<span>Please Log in <a href="/auth/google">Here</a> </span>
+<% } %>

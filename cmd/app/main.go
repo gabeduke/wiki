@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"wiki/actions"
+	"github.com/gabeduke/wiki/actions"
 )
 
 // main is the starting point for your Buffalo application.

@@ -2,17 +2,15 @@ package models
 
 import (
 	"encoding/json"
-	"time"
-
 	"github.com/gobuffalo/pop/v6"
 	"github.com/gobuffalo/validate/v3"
-	"github.com/gofrs/uuid"
+	"time"
 )
 
 // Workspace is used by pop to map your workspaces database table to your go code.
 type Workspace struct {
-	ID        uuid.UUID `json:"id" db:"id"`
-	UserID    []User    `json:"users" many_to_many:"user_workspaces" order_by:"created_at desc"`
+	ID        int       `json:"id" db:"id"`
+	Name      string    `json:"name" db:"name"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }

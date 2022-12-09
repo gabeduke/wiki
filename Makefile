@@ -3,19 +3,25 @@ EXECUTABLES = buffalo docker docker-compose go
 K := $(foreach exec,$(EXECUTABLES),\
         $(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH")))
 
-migrate: db
+migrate:
 	$(info performing migrations)
 	buffalo pop migrate up
 
 dev: migrate
 	buffalo dev
 
-db:
+up:
 	docker-compose up -d
 
-db-seed: db
-	$(info creating db tables)
-	buffalo pop create -a
+db-seed:
+	$(info seeding db)
+	buffalo task db:seed
 
-clean:
+db-reset:
+	$(info resetting db)
+	buffalo pop reset
+
+reset: db-reset db-seed
+
+down:
 	docker-compose down

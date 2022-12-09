@@ -1,7 +1,7 @@
 package grifts
 
 import (
-	"wiki/actions"
+	"github.com/gabeduke/wiki/actions"
 
 	"github.com/gobuffalo/buffalo"
 )

@@ -2,13 +2,12 @@ package models
 
 import (
 	"encoding/json"
-	"time"
-
 	"github.com/gobuffalo/nulls"
 	"github.com/gobuffalo/pop/v6"
 	"github.com/gobuffalo/validate/v3"
 	"github.com/gobuffalo/validate/v3/validators"
 	"github.com/gofrs/uuid"
+	"time"
 )
 
 // User is used by pop to map your users database table to your go code.
@@ -18,6 +17,8 @@ type User struct {
 	Email      nulls.String `json:"email" db:"email"`
 	Provider   string       `json:"provider" db:"provider"`
 	ProviderID string       `json:"provider_id" db:"provider_id"`
+	Workspace  []Workspace  `json:"workspaces" has_many:"workspaces" order_by:"created_at desc"`
+	Items      []Item       `json:"items" has_many:"items" order_by:"created_at desc"`
 	CreatedAt  time.Time    `json:"created_at" db:"created_at"`
 	UpdatedAt  time.Time    `json:"updated_at" db:"updated_at"`
 }

@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"sync"
 
-	"wiki/locales"
-	"wiki/models"
-	"wiki/public"
+	"github.com/gabeduke/wiki/locales"
+	"github.com/gabeduke/wiki/models"
+	"github.com/gabeduke/wiki/public"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo-pop/v3/pop/popmw"
@@ -75,6 +75,7 @@ func App() *buffalo.App {
 			app.Use(Authorize)
 
 			app.Resource("/items", ItemsResource{})
+			app.GET("/token", AuthToken)
 
 			app.Middleware.Skip(Authorize, HomeHandler)
 			bah := buffalo.WrapHandlerFunc(gothic.BeginAuthHandler)
@@ -82,6 +83,11 @@ func App() *buffalo.App {
 			auth.DELETE("/", AuthDestroy)
 			auth.Middleware.Skip(Authorize, bah, AuthCallback)
 			auth.GET("/{provider}/callback", AuthCallback)
+
+			api := app.Group("/api")
+			v1 := api.Group("/v1")
+			v1.Resource("/items", ItemsResource{})
+			v1.Resource("/users", UsersResource{})
 		}
 
 		app.ServeFiles("/", http.FS(public.FS())) // serve files from the public directory

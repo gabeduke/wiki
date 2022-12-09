@@ -2,9 +2,10 @@ package actions
 
 import (
 	"fmt"
+
+	"github.com/gabeduke/wiki/models"
+	"github.com/gabeduke/wiki/pkg/responder"
 	"github.com/gobuffalo/pop/v6"
-	"wiki/models"
-	"wiki/pkg/responder"
 
 	"github.com/gobuffalo/buffalo"
 )
@@ -56,7 +57,7 @@ func (v ItemsResource) List(c buffalo.Context) error {
 	// Add the paginator to the context so it can be used in the template.
 	c.Set("pagination", q.Paginator)
 
-	return c.Render(200, r.HTML("items/index.plush.html"))
+	return c.Render(200, r.Auto(c, items))
 }
 
 // Show gets the data for one Item. This function is mapped to
@@ -106,7 +107,7 @@ func (v ItemsResource) Create(c buffalo.Context) error {
 	if !ok {
 		return fmt.Errorf("could not find a current user")
 	}
-	item.UserID = cu.ID
+	item.UserId = cu.ID
 
 	// Validate the data from the html form
 	verrs, err := tx.ValidateAndCreate(item)
@@ -129,8 +130,7 @@ func (v ItemsResource) Create(c buffalo.Context) error {
 	// If there are no errors set a success message
 	c.Flash().Add("success", "Item was created successfully")
 
-	// and redirect to the items index page
-	return c.Redirect(302, "/items/%s", item.ID)
+	return c.Render(200, r.Auto(c, item))
 }
 
 // Edit renders a edit form for a Item. This function is

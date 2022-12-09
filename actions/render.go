@@ -1,8 +1,8 @@
 package actions
 
 import (
-	"wiki/public"
-	"wiki/templates"
+	"github.com/gabeduke/wiki/public"
+	"github.com/gabeduke/wiki/templates"
 
 	"github.com/gobuffalo/buffalo/render"
 )

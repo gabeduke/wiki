@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"github.com/gobuffalo/pop/v6"
 	"net/http"
 	"sync"
 
@@ -50,6 +51,8 @@ func App() *buffalo.App {
 				Env:         ENV,
 				SessionName: "_wiki_session",
 			})
+
+			pop.AddLookupPaths("/etc/wiki")
 
 			// Automatically redirect to SSL
 			app.Use(forceSSL())

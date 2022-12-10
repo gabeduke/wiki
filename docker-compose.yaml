@@ -1,21 +1,18 @@
 version: "3.9"
 
 services:
-#  postgres-init:
-#    image: postgres
+#  app:
+#    image: "test"
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "3000:3000"
+#    env_file:
+#      - .env_dev.env
 #    volumes:
-#      - "postgres_data:/data"
-#    entrypoint:
-#      - sh
-#      - -c
-#      - |
-#        chown -R 2000:2000 /data
-
+#      - ${PWD}/database:/app/wiki/database
   postgres:
-#    depends_on:
-#      postgres-init:
-#        condition: service_completed_successfully
-
     image: postgres
     environment:
       POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"

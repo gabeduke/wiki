@@ -3,7 +3,6 @@ module github.com/gabeduke/wiki
 go 1.18
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gobuffalo/buffalo v1.0.1
 	github.com/gobuffalo/buffalo-pop/v3 v3.0.6
 	github.com/gobuffalo/envy v1.10.2
@@ -12,12 +11,12 @@ require (
 	github.com/gobuffalo/mw-forcessl v1.0.1
 	github.com/gobuffalo/mw-i18n/v2 v2.0.2
 	github.com/gobuffalo/mw-paramlogger v1.0.1
-	github.com/gobuffalo/mw-tokenauth v1.0.1
 	github.com/gobuffalo/nulls v0.4.2
 	github.com/gobuffalo/pop/v6 v6.1.0
 	github.com/gobuffalo/suite/v4 v4.0.3
 	github.com/gobuffalo/validate/v3 v3.3.3
 	github.com/gofrs/uuid v4.3.1+incompatible
+	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/markbates/going v1.0.0
 	github.com/markbates/goth v1.75.1
 	github.com/pkg/errors v0.9.1
@@ -47,7 +46,6 @@ require (
 	github.com/gobuffalo/plush/v4 v4.1.16 // indirect
 	github.com/gobuffalo/refresh v1.13.2 // indirect
 	github.com/gobuffalo/tags/v3 v3.1.4 // indirect
-	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/gorilla/handlers v1.5.1 // indirect
